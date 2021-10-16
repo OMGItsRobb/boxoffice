@@ -6,24 +6,21 @@ import Starred from './pages/Starred.jsx';
 
 function App() {
   return (
-    <div>
-      <Nav />
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
+    <Switch>
+      <Route exact path="/">
+        <Home />
+      </Route>
 
-        <Route exaxt path="/starred">
-          <Starred />
-        </Route>
+      <Route exaxt path="/starred">
+        <Starred />
+      </Route>
 
-        <Route>
-          <div>
-            <h1>404 Page Not Found</h1>
-          </div>
-        </Route>
-      </Switch>
-    </div>
+      <Route>
+        <div>
+          <h1>404 Page Not Found</h1>
+        </div>
+      </Route>
+    </Switch>
   );
 }
 
