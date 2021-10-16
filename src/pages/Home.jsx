@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import ActorGrid from '../Components/actor/ActorGrid';
 import MainPageLayout from '../Components/MainPageLayout';
+import ShowGrid from '../Components/show/ShowGrid';
 import { apiGet } from '../misc/config';
 
 export const Home = () => {
@@ -35,17 +37,9 @@ export const Home = () => {
     }
     if (results && results.length > 0) {
       return results[0].show ? (
-        <div>
-          {results.map(item => (
-            <div key={item.show.id}>{item.show.name}</div>
-          ))}
-        </div>
+        <ShowGrid data={results} />
       ) : (
-        <div>
-          {results.map(item => (
-            <div key={item.person.id}>{item.person.name}</div>
-          ))}
-        </div>
+        <ActorGrid data={results} />
       );
     }
     return null;
@@ -59,7 +53,6 @@ export const Home = () => {
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         value={input}
-        checked={isShows}
       />
 
       <div>
@@ -70,6 +63,7 @@ export const Home = () => {
             id="show-search"
             value="shows"
             onChange={onRadioChange}
+            checked={isShows}
           />
         </label>
         <label htmlFor="actor-search">
