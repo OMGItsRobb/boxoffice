@@ -5,6 +5,9 @@ import { apiGet } from '../misc/config';
 export const Home = () => {
   const [input, setInput] = useState('');
   const [results, setResults] = useState(null);
+  const [searchOption, setSearchOption] = useState('shows');
+
+  const isShows = searchOption === 'shows';
 
   const onInputChange = ev => setInput(ev.target.value);
 
@@ -14,8 +17,13 @@ export const Home = () => {
     }
   };
 
+  const onRadioChange = ev => {
+    setSearchOption(ev.target.value);
+    console.log(searchOption);
+  };
+
   const onSearch = () => {
-    apiGet(`/search/shows?q=${input}`).then(result => {
+    apiGet(`/search/${searchOption}?q=${input}`).then(result => {
       setResults(result);
       console.log(result);
     });
@@ -26,10 +34,16 @@ export const Home = () => {
       return <div>`No Results :</div>;
     }
     if (results && results.length > 0) {
-      return (
+      return results[0].show ? (
         <div>
           {results.map(item => (
             <div key={item.show.id}>{item.show.name}</div>
+          ))}
+        </div>
+      ) : (
+        <div>
+          {results.map(item => (
+            <div key={item.person.id}>{item.person.name}</div>
           ))}
         </div>
       );
@@ -41,10 +55,35 @@ export const Home = () => {
     <MainPageLayout>
       <input
         type="text"
+        placeholder="Search for Movie"
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         value={input}
+        checked={isShows}
       />
+
+      <div>
+        <label htmlFor="show-search">
+          Shows
+          <input
+            type="radio"
+            id="show-search"
+            value="shows"
+            onChange={onRadioChange}
+          />
+        </label>
+        <label htmlFor="actor-search">
+          Actors{' '}
+          <input
+            type="radio"
+            id="actor-search"
+            value="people"
+            onChange={onRadioChange}
+            checked={!isShows}
+          />
+        </label>
+      </div>
+
       <button type="button" onClick={onSearch}>
         Search
       </button>
