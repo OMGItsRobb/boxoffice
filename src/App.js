@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 // import Nav from './Components/Nav.jsx';
 import { Home } from './pages/Home.jsx';
+import Show from './pages/Show.jsx';
 import Starred from './pages/Starred.jsx';
 
 function App() {
@@ -14,6 +15,11 @@ function App() {
 
         <Route exaxt path="/starred">
           <Starred />
+        </Route>
+
+        <Route exact path="/show/:id">
+          {' '}
+          <Show />
         </Route>
 
         <Route>
