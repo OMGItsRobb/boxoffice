@@ -1,6 +1,11 @@
 import React, { useReducer, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Cast from '../Components/show/Cast';
+import Details from '../Components/show/Details';
+import Seasons from '../Components/show/Seasons';
+import ShowMainData from '../Components/show/ShowMainData';
 import { apiGet } from '../misc/config';
+import { InfoBlock, ShowPageWrapper } from './Show.Style';
 
 const reducer = (prevState, action) => {
   switch (action.type) {
@@ -30,10 +35,6 @@ function Show() {
     initialState
   );
 
-  // const [show, setShow] = useState(null);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [error, setError] = useState(null);
-
   useEffect(() => {
     apiGet(`/shows/${id}?embed[]=seasons&embed[]=cast`).then(results => {});
     let isMounted = true;
@@ -62,7 +63,35 @@ function Show() {
     return <div>Error Occured: {error}</div>;
   }
 
-  return <div>This is show page!</div>;
+  return (
+    <ShowPageWrapper>
+      <ShowMainData
+        image={show.image}
+        name={show.name}
+        rating={show.rating}
+        summary={show.summary}
+        tags={show.genres}
+      ></ShowMainData>
+      <InfoBlock>
+        <h2>
+          Details
+          <Details
+            status={show.status}
+            netowkr={show.network}
+            premiere={show.premiere}
+          ></Details>
+        </h2>
+        <h2>
+          Seasons
+          <Seasons seasons={show._embedded.seasons}></Seasons>
+        </h2>
+        <h2>
+          Cast
+          <Cast cast={show._embedded.cast}></Cast>
+        </h2>
+      </InfoBlock>
+    </ShowPageWrapper>
+  );
 }
 
 export default Show;
